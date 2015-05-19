@@ -48,9 +48,8 @@ public class WordSearchII {
 
             visited[i][j] = true;
             final TrieNode next = node.next.get(c);
-            if(next.isWordEnd) {
+            if(next.word != null) {
                 result.add(next.word);
-                next.isWordEnd = false;
                 next.word = null;
                 trie.size--;
             }
@@ -86,30 +85,13 @@ public class WordSearchII {
                 }
                 node = node.next.get(c);
             }
-            node.isWordEnd = true;
             node.word = word;
-        }
-
-        public boolean contains(String word) {
-            return contains(root, word, 0);
-        }
-
-        private boolean contains(TrieNode node, String word, int ind) {
-            if(node == null) {
-                return false;
-            } else if(ind >= word.length()) {
-                return node.isWordEnd;
-            } else {
-                final char c = word.charAt(ind);
-                return contains(node.next.get(c), word,  ind + 1);
-            }
         }
     }
 
     private static class TrieNode {
 
         private final Map<Character, TrieNode> next = new HashMap<>();
-        private boolean isWordEnd;
         private String word;
     }
 
