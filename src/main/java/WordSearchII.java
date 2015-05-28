@@ -50,8 +50,7 @@ public class WordSearchII {
             final TrieNode next = node.next.get(c);
             if(next.word != null) {
                 result.add(next.word);
-                next.word = null;
-                trie.size--;
+                trie.delete(next.word);
             }
 
             visit(trie, next, i - 1, j, board, visited, result);
@@ -87,6 +86,28 @@ public class WordSearchII {
             }
             node.word = word;
         }
+
+        public void delete(String word) {
+
+            size--;
+            delete(root, word, 0);
+        }
+
+        private boolean delete(TrieNode node, String word, int len) {
+
+            if (node == null) {
+                return true;
+            }
+            if (len == word.length()) {
+                node.word = null;
+            } else {
+                final char c = word.charAt(len);
+                if (delete(node.next.get(c), word, len + 1)) {
+                    node.next.remove(c);
+                }
+            }
+            return node.word == null && node.next.size() == 0;
+        }
     }
 
     private static class TrieNode {
@@ -98,11 +119,11 @@ public class WordSearchII {
     public static void main(String[] args) {
 
         final WordSearchII wordSearch = new WordSearchII();
-//        String[] data = new String[] {"bbaabaabaaaaabaababaaaaababb","aabbaaabaaabaabaaaaaabbaaaba","babaababbbbbbbaabaababaabaaa","bbbaaabaabbaaababababbbbbaaa","babbabbbbaabbabaaaaaabbbaaab","bbbababbbbbbbababbabbbbbabaa","babababbababaabbbbabbbbabbba","abbbbbbaabaaabaaababaabbabba","aabaabababbbbbbababbbababbaa","aabbbbabbaababaaaabababbaaba","ababaababaaabbabbaabbaabbaba","abaabbbaaaaababbbaaaaabbbaab","aabbabaabaabbabababaaabbbaab","baaabaaaabbabaaabaabababaaaa","aaabbabaaaababbabbaabbaabbaa","aaabaaaaabaabbabaabbbbaabaaa","abbaabbaaaabbaababababbaabbb","baabaababbbbaaaabaaabbababbb","aabaababbaababbaaabaabababab","abbaaabbaabaabaabbbbaabbbbbb","aaababaabbaaabbbaaabbabbabab","bbababbbabbbbabbbbabbbbbabaa","abbbaabbbaaababbbababbababba","bbbbbbbabbbababbabaabababaab","aaaababaabbbbabaaaaabaaaaabb","bbaaabbbbabbaaabbaabbabbaaba","aabaabbbbaabaabbabaabababaaa","abbababbbaababaabbababababbb","aabbbabbaaaababbbbabbababbbb","babbbaabababbbbbbbbbaabbabaa"};
-//        String[] words = new String[] {"baabab","abaaaa","abaaab","ababba","aabbab","aabbba","aabaab"};
+        String[] data = new String[] {"bbaabaabaaaaabaababaaaaababb","aabbaaabaaabaabaaaaaabbaaaba","babaababbbbbbbaabaababaabaaa","bbbaaabaabbaaababababbbbbaaa","babbabbbbaabbabaaaaaabbbaaab","bbbababbbbbbbababbabbbbbabaa","babababbababaabbbbabbbbabbba","abbbbbbaabaaabaaababaabbabba","aabaabababbbbbbababbbababbaa","aabbbbabbaababaaaabababbaaba","ababaababaaabbabbaabbaabbaba","abaabbbaaaaababbbaaaaabbbaab","aabbabaabaabbabababaaabbbaab","baaabaaaabbabaaabaabababaaaa","aaabbabaaaababbabbaabbaabbaa","aaabaaaaabaabbabaabbbbaabaaa","abbaabbaaaabbaababababbaabbb","baabaababbbbaaaabaaabbababbb","aabaababbaababbaaabaabababab","abbaaabbaabaabaabbbbaabbbbbb","aaababaabbaaabbbaaabbabbabab","bbababbbabbbbabbbbabbbbbabaa","abbbaabbbaaababbbababbababba","bbbbbbbabbbababbabaabababaab","aaaababaabbbbabaaaaabaaaaabb","bbaaabbbbabbaaabbaabbabbaaba","aabaabbbbaabaabbabaabababaaa","abbababbbaababaabbababababbb","aabbbabbaaaababbbbabbababbbb","babbbaabababbbbbbbbbaabbabaa"};
+        String[] words = new String[] {"baabab","abaaaa","abaaab","ababba","aabbab","aabbba","aabaab"};
 
-        String[] data = new String[] {"ab"};
-        String[] words = new String[] {"ba"};
+        String[] data1 = new String[] {"ab"};
+        String[] word1 = new String[] {"ba"};
 
         System.out.println(wordSearch.findWords(toBoard(data), words));
     }
