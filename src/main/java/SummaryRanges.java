@@ -16,15 +16,15 @@ public class SummaryRanges {
         // assumptions:
         // approaches: O(N)
 
-        if(nums == null || nums.length == 0) {
+        if (nums == null || nums.length == 0) {
             return Collections.emptyList();
         }
 
         final List<String> result = new ArrayList<>();
         int ind = 0;
-        while(ind < nums.length) {
+        while (ind < nums.length) {
             int j = ind + 1;
-            while(j < nums.length && nums[j] == nums[j - 1] + 1) {
+            while (j < nums.length && nums[j] == nums[j - 1] + 1) {
                 j++;
             }
 
@@ -34,8 +34,34 @@ public class SummaryRanges {
         return result;
     }
 
+    public List<String> summaryRanges2(int[] nums) {
+
+        // input: the sorted array of integers
+        // output: the list of ranges
+        // edge cases: nums is null, nums is empty, nums does not contain consecutive values, nums contains only consecutive values :<0, N - 1>
+        // constraints: the input does not contain duplicates
+        // assumptions:
+        // approaches: O(N)
+
+        if(nums == null || nums.length == 0) {
+            return Collections.emptyList();
+        }
+
+        int i = 0;
+        int j = 1;
+        final List<String> ranges = new ArrayList<>();
+        while(j <= nums.length) {
+            if(j == nums.length || nums[j] != nums[j - 1] + 1) {
+                ranges.add(addRange(nums, i, j - 1));
+                i = j;
+            }
+            j++;
+        }
+        return ranges;
+    }
+
     private String addRange(int[] nums, int i, int j) {
-        if(i == j) {
+        if (i == j) {
             return String.valueOf(nums[i]);
         } else {
             return String.format("%d->%d", nums[i], nums[j]);
@@ -46,6 +72,6 @@ public class SummaryRanges {
 
         final int[] nums = {0, 1, 2, 4, 5, 7};
         final SummaryRanges ranges = new SummaryRanges();
-        System.out.println(ranges.summaryRanges(nums));
+        System.out.println(ranges.summaryRanges2(nums));
     }
 }
