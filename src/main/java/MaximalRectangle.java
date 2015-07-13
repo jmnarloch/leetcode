@@ -26,7 +26,6 @@ public class MaximalRectangle {
 
         int max = 0;
         int[] heights = new int[M + 1];
-        heights[0] = 0;
 
         for(int i = 0; i < N; i++) {
             Deque<Integer> stack = new LinkedList<>();
