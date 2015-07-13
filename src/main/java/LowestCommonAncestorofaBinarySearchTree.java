@@ -20,17 +20,15 @@ public class LowestCommonAncestorofaBinarySearchTree {
         if(node == null) {
             return 0;
         }
-        int curr = 0;
-        if(node == p || node == q) {
-            curr = 1;
-        }
 
         final int left = dfs(node.left, p, q);
         final int right = dfs(node.right, p, q);
 
+        final int curr = node == p || node == q ? 1 : 0;
         if(curr + left + right == 2 && lca == null) {
             lca = node;
         }
+
         return curr + left + right;
     }
 
